@@ -29,10 +29,23 @@ body {
     .owedPeopleNum {
         display: inline;
     }
+    .add {
+        padding-top: 20px;
+        .addExpense {
+            
+            display: inline;
+            padding: 10px 5px 20px 0px;
+        }
+        .addPerson{
+            display: inline;
+            padding: 10px 0px 20px 5px;
+        }
+    }
 }
 
-.personList {
+.peopleList {
     height: 67vh;
     left: 50%;
     text-align: center;
+    
 }
