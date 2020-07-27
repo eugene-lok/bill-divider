@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+
+}
+
+.owedDisplay {
+    height: 33vh;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    .owedTitle{
+        padding-top: 10px;
+        font-size: 20px;
+    }
+    .owedAmount {
+        font-size: 48px;
+        padding: 10px 0px 10px 0px;
+    }
+    .owedPeople {
+        display: inline;
+    }
+    .owedPeopleNum {
+        display: inline;
+    }
+}
+
+.personList {
+    height: 67vh;
+    left: 50%;
+    text-align: center;
+}

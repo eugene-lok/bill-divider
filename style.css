@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+}
+
+.owedDisplay {
+  height: 33vh;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+}
+
+.owedDisplay .owedTitle {
+  padding-top: 10px;
+  font-size: 20px;
+}
+
+.owedDisplay .owedAmount {
+  font-size: 48px;
+  padding: 10px 0px 10px 0px;
+}
+
+.owedDisplay .owedPeople {
+  display: inline;
+}
+
+.owedDisplay .owedPeopleNum {
+  display: inline;
+}
+
+.personList {
+  height: 67vh;
+  left: 50%;
+  text-align: center;
+}
+/*# sourceMappingURL=style.css.map */
