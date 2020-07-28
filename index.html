@@ -15,6 +15,9 @@
         <div class = "owedAmount">
             $4831.31
         </div>
+        <div class = "owedSettled">
+            All payments have been settled! 
+        </div>
         <div class = "owedPeople">
             # of people in group: 
         </div>
@@ -34,24 +37,32 @@
 
     <div class = "peopleList">
         <div class = "peopleTitle">Group</div>
-        <div class = "person0">
-            <div class = "personName">Mark</div>
-            <div class = "paidInitial">Initially paid for the bill!</div>
-            <div class = "amountOwed">$431.49</div>
-            <div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
-            <div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div>
+        <div class = "person clearfix" id = "person-0">
+            <div class = "left clearfix">
+                <div class = "personName">Mark</div>
+                <div class = "paidInitial">Initially paid for the bill!</div>
+            </div>
+            <div class = "right clearfix">
+                <div class = "owedAmount">$431.49</div>
+                <div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
+                <div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div>
+            </div>
         </div>
 
-        <div class = "person1">
-            <div class = "personName">Bill</div>
-            <div class = "paidInitial"></div>
-            <div class = "amountOwed">$1054.31</div>
-            <div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
-            <div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div>
+        <div class = "person clearfix" id = "person-1">
+            <div class = "left clearfix">
+                <div class = "personName">Steve</div>
+                <div class = "paidInitial"></div>
+            </div>
+            <div class = "right clearfix">
+                <div class = "owedAmount">$1054.31</div>
+                <div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
+                <div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div>
+            </div>
         </div>
 
     </div>
     <script src = "app.js"></script>
-    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
 </body>
 </html>
