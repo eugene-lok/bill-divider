@@ -10,18 +10,28 @@ body {
 
 }
 
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .owedDisplay {
     height: 33vh;
     top: 50%;
     left: 50%;
     text-align: center;
+    margin-top: 10px;
     .owedTitle{
         padding-top: 10px;
         font-size: 20px;
     }
     .owedAmount {
-        font-size: 48px;
+        font-size: 50px;
         padding: 10px 0px 10px 0px;
+    }
+    .owedSettled {
+        font-size: 14px;
     }
     .owedPeople {
         display: inline;
@@ -29,10 +39,76 @@ body {
     .owedPeopleNum {
         display: inline;
     }
+    .add {
+        padding-top: 20px;
+        .addExpense {
+            
+            display: inline;
+            padding: 10px 5px 20px 0px;
+        }
+        .addPerson{
+            display: inline;
+            padding: 10px 0px 20px 5px;
+        }
+    }
 }
 
-.personList {
+.peopleList {
     height: 67vh;
-    left: 50%;
+    width: 50%;
     text-align: center;
+    margin: 0 auto;
+
+    .person {
+        border: 1px solid black;
+        border-radius: 15px;
+        margin: 0px 0px 10px 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .left {
+        width: 50%;
+        display: inline-block;
+        margin: 0 auto;
+    }
+
+    .right {
+        width: 50%; 
+        float: right;
+        display: flex;
+        justify-content: right;  
+    }
+    
+    .peopleTitle {
+        font-size: 36px;
+        padding: 40px 0px 40px 0px;
+    }
+
+    .personName {
+        text-align: left;
+        font-size: 32px;
+        padding: 10px 0px 5px 10px;
+    }
+
+    .paidInitial {
+        font-size: 14px;
+        float: left;
+        left: 20px;
+        bottom: 10px;
+        padding: 5px 0px 10px 10px;
+    }
+
+    .owedAmount{
+        font-size: 32px;
+        padding-right: 10px;
+    }
+    .btn-pay {  
+        padding: 2px 20px 0px 20px;
+    }
+
+    .btn-del {
+        padding-right: 20px;
+    }
 }
