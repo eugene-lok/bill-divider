@@ -10,6 +10,14 @@ body {
 
 }
 
+input {
+    font-size: 20px;
+    display: flex;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-width: 3px;
+}
+
 .clearfix::after {
     content: "";
     display: table;
@@ -41,16 +49,19 @@ body {
     }
     .add {
         padding-top: 20px;
-        .addExpense {
-            
+        .btn-addExpense {
             display: inline;
             padding: 10px 5px 20px 0px;
         }
-        .addPerson{
+        .btn-addPerson {
             display: inline;
             padding: 10px 0px 20px 5px;
         }
     }
+    .addBtns {
+        padding-top: 10px;
+    }
+
 }
 
 .peopleList {

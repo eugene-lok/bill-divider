@@ -10,6 +10,16 @@ body {
   font-size: 18px;
 }
 
+input {
+  font-size: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0 auto;
+  border: 1px solid black;
+  border-width: 3px;
+}
+
 .clearfix::after {
   content: "";
   display: table;
@@ -50,14 +60,18 @@ body {
   padding-top: 20px;
 }
 
-.owedDisplay .add .addExpense {
+.owedDisplay .add .btn-addExpense {
   display: inline;
   padding: 10px 5px 20px 0px;
 }
 
-.owedDisplay .add .addPerson {
+.owedDisplay .add .btn-addPerson {
   display: inline;
   padding: 10px 0px 20px 5px;
+}
+
+.owedDisplay .addBtns {
+  padding-top: 10px;
 }
 
 .peopleList {

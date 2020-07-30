@@ -26,8 +26,11 @@
         </div>
 
         <div class = "add">
-            <div class ="addExpense"><ion-icon name="add-circle-outline" size = "large"></ion-icon></div>
-            <div class ="addPerson"><ion-icon name="person-add-outline" size = "large"></ion-icon></div>
+            <input type = "text" class = "add">
+            <div class = "addBtns">
+                <div class ="btn-addExpense"><ion-icon name="add-circle-outline" size = "large"></ion-icon></div>
+                <div class ="btn-addPerson"><ion-icon name="person-add-outline" size = "large"></ion-icon></div>
+            </div>
         </div>    
     </div>
 
@@ -56,12 +59,20 @@
             </div>
             <div class = "right clearfix">
                 <div class = "owedAmount">$1054.31</div>
-                <div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
+                <div class = "btn-pay modal-btn"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
                 <div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div>
             </div>
         </div>
-
     </div>
+
+    <!-- MODAL FOR ADDING EXPENSES OR PEOPLE-->
+    <div class = "modal modal-expense">
+        <div class = "modal-expense-content">
+            <span class = "modal-close">Test</span>
+            <p>Modal Text</p>
+        </div>
+    </div>
+
     <script src = "app.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.0.0/dist/ionicons/ionicons.esm.js"></script>
 </body>
