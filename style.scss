@@ -37,6 +37,7 @@ input {
     left: 50%;
     text-align: center;
     margin-top: 10px;
+    min-height: 280px;
     .owedTitle{
         padding-top: 10px;
         font-size: 20px;
@@ -78,6 +79,7 @@ input {
     width: 50%;
     text-align: center;
     margin: 0 auto;
+    max-height: 500px;
 
     .person {
         border: 1px solid black;
