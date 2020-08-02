@@ -178,3 +178,8 @@ var controller = (function(billCtrl, UICtrl) {
 
 // Start app and consequently, event listeners
 controller.init();
+
+// Initialize BootStrap tooltips
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});
