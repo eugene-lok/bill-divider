@@ -18,6 +18,7 @@ input {
   margin: 0 auto;
   border: 1px solid black;
   border-width: 3px;
+  border-radius: 4px;
 }
 
 .clearfix::after {
@@ -145,6 +146,16 @@ input {
 
 .peopleList .btn-del {
   padding-right: 20px;
+}
+
+.addPersonName {
+  border-width: 1px;
+  border-radius: 1px;
+}
+
+.btn-primary {
+  background-color: black;
+  border-color: black;
 }
 
 ion-icon[name="person-add-outline"]:hover {
