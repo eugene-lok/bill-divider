@@ -18,6 +18,7 @@ input {
   margin: 0 auto;
   border: 1px solid black;
   border-width: 3px;
+  border-radius: 4px;
 }
 
 .clearfix::after {
@@ -32,6 +33,7 @@ input {
   left: 50%;
   text-align: center;
   margin-top: 10px;
+  min-height: 280px;
 }
 
 .owedDisplay .owedTitle {
@@ -63,11 +65,13 @@ input {
 .owedDisplay .add .btn-addExpense {
   display: inline;
   padding: 10px 5px 20px 0px;
+  cursor: pointer;
 }
 
 .owedDisplay .add .btn-addPerson {
   display: inline;
   padding: 10px 0px 20px 5px;
+  cursor: pointer;
 }
 
 .owedDisplay .addBtns {
@@ -79,6 +83,7 @@ input {
   width: 50%;
   text-align: center;
   margin: 0 auto;
+  max-height: 500px;
 }
 
 .peopleList .person {
@@ -138,10 +143,39 @@ input {
 }
 
 .peopleList .btn-pay {
-  padding: 2px 20px 0px 20px;
+  padding: 8px 20px 0px 20px;
+  cursor: pointer;
 }
 
 .peopleList .btn-del {
+  padding-top: 6px;
   padding-right: 20px;
+  cursor: pointer;
+}
+
+.addPersonName {
+  border-width: 1px;
+  border-radius: 1px;
+}
+
+.btn-primary {
+  background-color: black;
+  border-color: black;
+}
+
+ion-icon[name="person-add-outline"]:hover {
+  color: #0054ba;
+}
+
+ion-icon[name="add-circle-outline"]:hover {
+  color: #85bb65;
+}
+
+ion-icon[name="cash-outline"]:hover {
+  color: #85bb65;
+}
+
+ion-icon[name="trash-outline"]:hover {
+  color: red;
 }
 /*# sourceMappingURL=style.css.map */

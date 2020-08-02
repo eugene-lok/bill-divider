@@ -1,3 +1,8 @@
+// Variables
+$personColour: #0054ba;
+$moneyGreen: #85bb65;
+
+// General 
 * {
     margin: 0;
     padding: 0;
@@ -16,6 +21,7 @@ input {
     margin: 0 auto;
     border: 1px solid black;
     border-width: 3px;
+    border-radius: 4px;
 }
 
 .clearfix::after {
@@ -24,12 +30,14 @@ input {
     clear: both;
 }
 
+// Main Content
 .owedDisplay {
     height: 33vh;
     top: 50%;
     left: 50%;
     text-align: center;
     margin-top: 10px;
+    min-height: 280px;
     .owedTitle{
         padding-top: 10px;
         font-size: 20px;
@@ -52,10 +60,12 @@ input {
         .btn-addExpense {
             display: inline;
             padding: 10px 5px 20px 0px;
+            cursor: pointer;
         }
         .btn-addPerson {
             display: inline;
             padding: 10px 0px 20px 5px;
+            cursor: pointer;
         }
     }
     .addBtns {
@@ -69,6 +79,7 @@ input {
     width: 50%;
     text-align: center;
     margin: 0 auto;
+    max-height: 500px;
 
     .person {
         border: 1px solid black;
@@ -116,10 +127,41 @@ input {
         padding-right: 10px;
     }
     .btn-pay {  
-        padding: 2px 20px 0px 20px;
+        padding: 8px 20px 0px 20px;
+        cursor: pointer;
     }
 
     .btn-del {
+        padding-top: 6px;
         padding-right: 20px;
+        cursor: pointer;
     }
+}
+
+// Modal
+.addPersonName {
+    border-width: 1px;
+    border-radius: 1px;
+}
+
+.btn-primary {
+    background-color: black;
+    border-color: black;
+}
+
+// Effects
+ion-icon[name="person-add-outline"]:hover {
+    color: $personColour;
+}
+
+ion-icon[name="add-circle-outline"]:hover {
+    color: $moneyGreen;
+}
+
+ion-icon[name="cash-outline"]:hover {
+    color: $moneyGreen;
+}
+
+ion-icon[name="trash-outline"]:hover {
+    color: red;
 }
