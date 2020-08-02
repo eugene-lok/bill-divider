@@ -1,14 +1,83 @@
 // Bill Controller
 var billController = (function() {
 
+    // Expense
+    var Expense;
+
     // Constructor for person
-    var Person = function(id, name, initial, paid, balance) {
+    var Person = function(id, name, balance) {
         this.id = id;
         this.name = name;
-        this.initial = initial;
-        this.paid = paid;
         this.balance = balance;
-    }
+    };
+
+    var data = {
+        // Person Array
+        allPeople: [],
+        totalOwed: parseFloat("0"),
+
+        getNumPeople: function() {
+            return this.allPeople.length;
+        },
+
+        // Note: MUST call whenever & AFTER new expense or person is added
+        updateBalances: function() {
+            console.log("Updating...");
+            // Calculate individual divided bill value
+            var total = this.totalOwed;
+            var numPeople = this.getNumPeople();
+            var split = total/numPeople;
+            for (var i = 0; i < this.getNumPeople(); i++) {
+                this.allPeople[i].balance = split;
+            }
+        },
+    };
+
+    return {
+
+        getTotalOwed: function() {
+            return data.totalOwed;
+        },
+
+        addExpense: function (exp) {
+            var newExpense = 0;
+            newExpense = exp;
+            console.log("New Expense" + exp);
+            // Add expense to total
+            data.totalOwed += parseFloat(newExpense);
+            // Update balances
+            data.updateBalances();
+            return newExpense;
+        }, 
+
+        addPerson: function(nam, exp) {
+            var newPerson, id, bal;
+            // Create ID based on id of last item + 1
+            if (data.allPeople.length > 0) {
+                id = data.allPeople[data.allPeople.length-1].id + 1;
+            }
+            else {
+                id = 0;
+            }
+            // Create new person
+            newPerson = new Person(id, nam, bal);
+            // Get number of total people
+            numPeople = data.getNumPeople();
+            // Update individual expense
+            bal = exp/numPeople;
+            newPerson.balance = bal;
+            // Push to data
+            data.allPeople.push(newPerson);
+            // Update balances
+            data.updateBalances();
+            // Return new person
+            return newPerson;
+        },
+
+        testDisplay: function() {
+            console.log(data);
+        }
+    };
 
 })();
 
@@ -16,18 +85,18 @@ var billController = (function() {
 var uiController = (function() {
     // String classes inputs from DOM
     var domStrings = {
-        inputQuantity: ".addQuantity",
+        inputExpense: ".addExpense",
         inputPersonName: ".addPersonName",
-        inputQuantityBtn: ".btn-addExpense",
+        inputExpenseBtn: ".btn-addExpense",
         inputPersonBtn: ".btn-addPersonFinal",
     };
 
     return {
-        getInput: function() {
-            console.log("Input worked.");
-            // Read and return input quantity from UI
+        getExpense: function() {
+            console.log("Added " + document.querySelector(domStrings.inputExpense).value);
+            // Read and return expense quantity from UI
             return {
-                quantity: document.querySelector(domStrings.inputQuantity).value
+                expense: document.querySelector(domStrings.inputExpense).value
             }
         },
 
@@ -55,7 +124,7 @@ var controller = (function(billCtrl, UICtrl) {
         var dom = UICtrl.getDomStrings();
 
         // Adds an expense to the bill (Button)
-        document.querySelector(dom.inputQuantityBtn).addEventListener('click', ctrlAddExpense);
+        document.querySelector(dom.inputExpenseBtn).addEventListener('click', ctrlAddExpense);
 
         // Adds an expense to the bill (Enter key)
         document.addEventListener('keypress', function(event) {
@@ -74,9 +143,11 @@ var controller = (function(billCtrl, UICtrl) {
 
     // Add expense to the bill
     var ctrlAddExpense = function() {
+        var input, newExpense;
         // Get field input
-        var input = UICtrl.getInput();
+        input = UICtrl.getExpense().expense;
         // Add expense to bill controller
+        newExpense = billCtrl.addExpense(input);
         // Add expense to UI
         // Calculate total owed
         // Display on UI
@@ -84,9 +155,15 @@ var controller = (function(billCtrl, UICtrl) {
 
     // Add person to share the bill 
     var ctrlAddPerson = function() {
+        var input, expense, newPerson;
         // Get person name
-        var input = UICtrl.getPerson();
-        // TODO: Add data to controller and display
+        input = UICtrl.getPerson();
+        // Get total expense 
+        expense = billCtrl.getTotalOwed();
+        // Add person to bill controller
+        newPerson = billCtrl.addPerson(input,expense);
+        // Add person to UI
+        // Display on UI
     }
 
     // Init function
