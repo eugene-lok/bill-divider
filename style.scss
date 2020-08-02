@@ -1,5 +1,6 @@
 // Variables
 $personColour: #0054ba;
+$moneyGreen: #85bb65;
 
 // General 
 * {
@@ -124,11 +125,14 @@ input {
         padding-right: 10px;
     }
     .btn-pay {  
-        padding: 2px 20px 0px 20px;
+        padding: 8px 20px 0px 20px;
+        cursor: pointer;
     }
 
     .btn-del {
+        padding-top: 6px;
         padding-right: 20px;
+        cursor: pointer;
     }
 }
 
@@ -146,4 +150,16 @@ input {
 // Effects
 ion-icon[name="person-add-outline"]:hover {
     color: $personColour;
+}
+
+ion-icon[name="add-circle-outline"]:hover {
+    color: $moneyGreen;
+}
+
+ion-icon[name="cash-outline"]:hover {
+    color: $moneyGreen;
+}
+
+ion-icon[name="trash-outline"]:hover {
+    color: red;
 }

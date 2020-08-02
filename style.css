@@ -141,11 +141,14 @@ input {
 }
 
 .peopleList .btn-pay {
-  padding: 2px 20px 0px 20px;
+  padding: 8px 20px 0px 20px;
+  cursor: pointer;
 }
 
 .peopleList .btn-del {
+  padding-top: 6px;
   padding-right: 20px;
+  cursor: pointer;
 }
 
 .addPersonName {
@@ -160,5 +163,17 @@ input {
 
 ion-icon[name="person-add-outline"]:hover {
   color: #0054ba;
+}
+
+ion-icon[name="add-circle-outline"]:hover {
+  color: #85bb65;
+}
+
+ion-icon[name="cash-outline"]:hover {
+  color: #85bb65;
+}
+
+ion-icon[name="trash-outline"]:hover {
+  color: red;
 }
 /*# sourceMappingURL=style.css.map */

@@ -17,15 +17,25 @@ var uiController = (function() {
     // String classes inputs from DOM
     var domStrings = {
         inputQuantity: ".addQuantity",
+        inputPersonName: ".addPersonName",
         inputQuantityBtn: ".btn-addExpense",
-        inputPersonBtn: ".btn-addPerson",
+        inputPersonBtn: ".btn-addPersonFinal",
     };
 
     return {
         getInput: function() {
+            console.log("Input worked.");
             // Read and return input quantity from UI
             return {
                 quantity: document.querySelector(domStrings.inputQuantity).value
+            }
+        },
+
+        getPerson: function() {
+            console.log("Added " + document.querySelector(domStrings.inputPersonName).value);
+            // Read and return person name from modal (UI)
+            return {
+                personName: document.querySelector(domStrings.inputPersonName).value
             }
         },
 
@@ -57,19 +67,26 @@ var controller = (function(billCtrl, UICtrl) {
 
         // Adds a person to the group
         document.querySelector(dom.inputPersonBtn).addEventListener('click', function() {
+            ctrlAddPerson();
             console.log("Person was pressed");
         });
     };
 
-    
+    // Add expense to the bill
     var ctrlAddExpense = function() {
-
         // Get field input
         var input = UICtrl.getInput();
         // Add expense to bill controller
         // Add expense to UI
         // Calculate total owed
         // Display on UI
+    }
+
+    // Add person to share the bill 
+    var ctrlAddPerson = function() {
+        // Get person name
+        var input = UICtrl.getPerson();
+        // TODO: Add data to controller and display
     }
 
     // Init function
