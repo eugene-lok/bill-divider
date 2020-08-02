@@ -1,3 +1,7 @@
+// Variables
+$personColour: #0054ba;
+
+// General 
 * {
     margin: 0;
     padding: 0;
@@ -24,6 +28,7 @@ input {
     clear: both;
 }
 
+// Main Content
 .owedDisplay {
     height: 33vh;
     top: 50%;
@@ -52,10 +57,12 @@ input {
         .btn-addExpense {
             display: inline;
             padding: 10px 5px 20px 0px;
+            cursor: pointer;
         }
         .btn-addPerson {
             display: inline;
             padding: 10px 0px 20px 5px;
+            cursor: pointer;
         }
     }
     .addBtns {
@@ -122,4 +129,9 @@ input {
     .btn-del {
         padding-right: 20px;
     }
+}
+
+// Effects
+ion-icon[name="person-add-outline"]:hover {
+    color: $personColour;
 }
