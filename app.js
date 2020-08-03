@@ -34,6 +34,9 @@ var billController = (function() {
     };
 
     return {
+        getNumPeople: function() {
+            return data.getNumPeople();
+        },
 
         getTotalOwed: function() {
             return data.totalOwed;
@@ -89,7 +92,9 @@ var uiController = (function() {
         inputPersonName: ".addPersonName",
         inputExpenseBtn: ".btn-addExpense",
         inputPersonBtn: ".btn-addPersonFinal",
-        personItemContainer: ".personContainer"
+        personItemCont: ".personContainer",
+        personNoID: "#person-",
+        personBalDiv: "div.owedAmount"
     };
 
     return {
@@ -112,7 +117,7 @@ var uiController = (function() {
         addListPerson: function(obj) {
             var html, newHtml, element;
             // Create string with placeholder text
-            element = domStrings.personItemContainer;
+            element = domStrings.personItemCont;
             html = '<div class = "person clearfix" id = "person-%id%"><div class = "left clearfix"><div class = "personName">%name%</div></div><div class = "right clearfix"><div class = "owedAmount">$%balance%</div><div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div><div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div></div></div>';
 
             // Replace placeholder with object attributes
@@ -122,6 +127,20 @@ var uiController = (function() {
 
             // Insert HTML into DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+        },
+
+        // Update balances in list new person is added
+        updateUIBalances: function () {
+            var numPeople, total, newBalance;
+            // Get number of people from bill controller
+            numPeople = billController.getNumPeople();
+            // Get total owed from bill controller and calculate new balances
+            total = billController.getTotalOwed();
+            newBalance = total/numPeople;
+            // Update owed amount for each person in UI
+            for (var i = 0; i < numPeople; i++) {
+                document.querySelector(domStrings.personNoID+i).querySelectorAll(domStrings.personBalDiv)[0].textContent = "$"+newBalance;
+            }
         },
 
         getDomStrings: function() {
@@ -165,6 +184,8 @@ var controller = (function(billCtrl, UICtrl) {
         // Add expense to bill controller
         newExpense = billCtrl.addExpense(input);
         // Add expense to UI
+        // Update individual balances
+        UICtrl.updateUIBalances();
         // Calculate total owed
         // Display on UI
     }
@@ -178,8 +199,9 @@ var controller = (function(billCtrl, UICtrl) {
         expense = billCtrl.getTotalOwed();
         // Add person to bill controller
         newPerson = billCtrl.addPerson(input,expense);
-        // Add person to UI
+        // Add person to UI & update balances
         UICtrl.addListPerson(newPerson);
+        UICtrl.updateUIBalances();
         // Display on UI
     }
 
