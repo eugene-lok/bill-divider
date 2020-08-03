@@ -30,7 +30,7 @@
             <input type = "text" class = "add addExpense" placeholder= "Add Expense to Bill">
             <div class = "addBtns">
                 <div class ="btn-addExpense" data-toggle="tooltip" data-placement="bottom" title="Add Expense"><ion-icon name="add-circle-outline" size = "large"></ion-icon></div>
-                <div class ="btn-addPerson" data-toggle="tooltip" data-placement="bottom" title="Add Person"><span data-toggle="modal" data-target="#exampleModalCenter"><ion-icon name="person-add-outline" size = "large" ></ion-icon></span></div>
+                <div class ="btn-addPerson" data-toggle="tooltip" data-placement="bottom" title="Add Person"><span data-toggle="modal" data-target="#addPersonModal"><ion-icon name="person-add-outline" size = "large" ></ion-icon></span></div>
             </div>
         </div>    
     </div>
@@ -41,28 +41,32 @@
 
     <div class = "peopleList">
         <div class = "peopleTitle">Group</div>
-        <div class = "person clearfix" id = "person-0">
-            <div class = "left clearfix">
-                <div class = "personName">Mark</div>
-                <div class = "paidInitial">Initially paid for the bill!</div>
+        <div class = "personContainer">
+            <!--
+            <div class = "person clearfix" id = "person-0">
+                <div class = "left clearfix">
+                    <div class = "personName">Mark</div>
+                    <div class = "paidInitial">Initially paid for the bill!</div>
+                </div>
+                <div class = "right clearfix">
+                    <div class = "owedAmount">$431.49</div>
+                    <div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
+                    <div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div>
+                </div>
             </div>
-            <div class = "right clearfix">
-                <div class = "owedAmount">$431.49</div>
-                <div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
-                <div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div>
+        
+            <div class = "person clearfix" id = "person-1">
+                <div class = "left clearfix">
+                    <div class = "personName">Steve</div>
+                    <div class = "paidInitial"></div>
+                </div>
+                <div class = "right clearfix">
+                    <div class = "owedAmount">$1054.31</div>
+                    <div class = "btn-pay modal-btn"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
+                    <div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div>
+                </div>
             </div>
-        </div>
-
-        <div class = "person clearfix" id = "person-1">
-            <div class = "left clearfix">
-                <div class = "personName">Steve</div>
-                <div class = "paidInitial"></div>
-            </div>
-            <div class = "right clearfix">
-                <div class = "owedAmount">$1054.31</div>
-                <div class = "btn-pay modal-btn"><ion-icon name="cash-outline" size = "large"></ion-icon></div>
-                <div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div>
-            </div>
+            -->
         </div>
     </div>
 
@@ -74,7 +78,7 @@
 </button> -->
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="addPersonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-header">

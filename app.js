@@ -89,6 +89,7 @@ var uiController = (function() {
         inputPersonName: ".addPersonName",
         inputExpenseBtn: ".btn-addExpense",
         inputPersonBtn: ".btn-addPersonFinal",
+        personItemContainer: ".personContainer"
     };
 
     return {
@@ -106,6 +107,21 @@ var uiController = (function() {
             return {
                 personName: document.querySelector(domStrings.inputPersonName).value
             }
+        },
+
+        addListPerson: function(obj) {
+            var html, newHtml, element;
+            // Create string with placeholder text
+            element = domStrings.personItemContainer;
+            html = '<div class = "person clearfix" id = "person-%id%"><div class = "left clearfix"><div class = "personName">%name%</div></div><div class = "right clearfix"><div class = "owedAmount">$%balance%</div><div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div><div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div></div></div>';
+
+            // Replace placeholder with object attributes
+            newHtml = html.replace('%id%', obj.id);
+            newHtml = newHtml.replace('%name%', obj.name.personName);
+            newHtml = newHtml.replace('%balance%', obj.balance);
+
+            // Insert HTML into DOM
+            document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
         },
 
         getDomStrings: function() {
@@ -163,6 +179,7 @@ var controller = (function(billCtrl, UICtrl) {
         // Add person to bill controller
         newPerson = billCtrl.addPerson(input,expense);
         // Add person to UI
+        UICtrl.addListPerson(newPerson);
         // Display on UI
     }
 
@@ -178,8 +195,3 @@ var controller = (function(billCtrl, UICtrl) {
 
 // Start app and consequently, event listeners
 controller.init();
-
-// Initialize BootStrap tooltips
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-});
