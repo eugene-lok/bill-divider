@@ -22,7 +22,6 @@ var billController = (function() {
 
         // Note: MUST call whenever & AFTER new expense or person is added
         updateBalances: function() {
-            console.log("Updating...");
             // Calculate individual divided bill value
             var total = this.totalOwed;
             var numPeople = this.getNumPeople();
@@ -99,7 +98,6 @@ var uiController = (function() {
 
     return {
         getExpense: function() {
-            console.log("Added " + document.querySelector(domStrings.inputExpense).value);
             // Read and return expense quantity from UI
             return {
                 expense: document.querySelector(domStrings.inputExpense).value
@@ -176,30 +174,40 @@ var controller = (function(billCtrl, UICtrl) {
         document.addEventListener('keypress', function(event) {
             if(event.keyCode === 13 || event.which === 13)  {
                 ctrlAddExpense();
-                console.log("Enter was pressed");
             }
         });
 
         // Adds a person to the group
         document.querySelector(dom.inputPersonBtn).addEventListener('click', function() {
             ctrlAddPerson();
-            console.log("Person was pressed");
         });
     };
+
+    var updateTotal = function() {
+        // Return total
+    }
 
     // Add expense to the bill
     var ctrlAddExpense = function() {
         var input, newExpense;
         // Get field input
         input = UICtrl.getExpense().expense;
-        // Add expense to bill controller
-        newExpense = billCtrl.addExpense(input);
-        // Add expense to UI
-        // Update individual balances, clear fields
-        UICtrl.updateUIBalances();
-        UICtrl.clearExpenseField();
-        // Calculate total owed
-        // Display on UI
+        // Input error checking
+        if (input != "" && !isNaN(input) && input > 0) {
+            console.log("Added " + input);
+            // Add expense to bill controller
+            newExpense = billCtrl.addExpense(input);
+            // Add expense to UI
+            // Update individual balances, clear fields
+            UICtrl.updateUIBalances();
+            UICtrl.clearExpenseField();
+            // Calculate total owed & display on UI
+            updateTotal();
+            // Display on UI
+        }
+        else {
+            alert("Please enter positive values only.")
+        }
     }
 
     // Add person to share the bill 
@@ -207,14 +215,18 @@ var controller = (function(billCtrl, UICtrl) {
         var input, expense, newPerson;
         // Get person name
         input = UICtrl.getPerson();
-        // Get total expense 
-        expense = billCtrl.getTotalOwed();
-        // Add person to bill controller
-        newPerson = billCtrl.addPerson(input,expense);
-        // Add person to UI, update balances, clear fields
-        UICtrl.addListPerson(newPerson);
-        UICtrl.updateUIBalances();
-        UICtrl.clearPersonField();
+
+        if (input.personName != "") {
+            // Get total expense 
+            expense = billCtrl.getTotalOwed();
+            // Add person to bill controller
+            newPerson = billCtrl.addPerson(input,expense);
+            // Add person to UI, update balances, clear fields
+            UICtrl.addListPerson(newPerson);
+            UICtrl.updateUIBalances();
+            UICtrl.clearPersonField();
+        }
+        
         // Display on UI
     }
 
