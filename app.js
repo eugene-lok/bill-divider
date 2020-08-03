@@ -143,6 +143,12 @@ var uiController = (function() {
             }
         },
 
+        // Clear input fields when addExpense or addPerson button is submitted   
+        clearFields: function() {
+            document.querySelector(domStrings.inputExpense).value = "";
+            document.querySelector(domStrings.inputPersonName).value = "";
+        },
+
         getDomStrings: function() {
             return domStrings;
         }
@@ -186,6 +192,7 @@ var controller = (function(billCtrl, UICtrl) {
         // Add expense to UI
         // Update individual balances
         UICtrl.updateUIBalances();
+        UICtrl.clearFields();
         // Calculate total owed
         // Display on UI
     }
@@ -202,6 +209,7 @@ var controller = (function(billCtrl, UICtrl) {
         // Add person to UI & update balances
         UICtrl.addListPerson(newPerson);
         UICtrl.updateUIBalances();
+        UICtrl.clearFields();
         // Display on UI
     }
 
