@@ -5,15 +5,16 @@ var billController = (function() {
     var Expense;
 
     // Constructor for person
-    var Person = function(id, name, balance) {
+    var Person = function(id, name, owed) {
         this.id = id;
         this.name = name;
-        this.balance = balance;
+        this.owed = owed;
     };
 
     var data = {
         // Person Array
         allPeople: [],
+        totalExpense: parseFloat("0"),
         totalOwed: parseFloat("0"),
 
         getNumPeople: function() {
@@ -21,15 +22,18 @@ var billController = (function() {
         },
 
         // Note: MUST call whenever & AFTER new expense or person is added
-        updateBalances: function() {
+        updateOwed: function() {
             // Calculate individual divided bill value
-            var total = this.totalOwed;
+            var total = this.totalExpense;
             var numPeople = this.getNumPeople();
             var split = total/numPeople;
             for (var i = 0; i < this.getNumPeople(); i++) {
-                this.allPeople[i].balance = split;
+                this.allPeople[i].owed = split;
             }
-        },
+            // TODO: Split AFTER payments are made
+        }
+
+        // Calculate total amount owed from all people
     };
 
     return {
@@ -37,8 +41,8 @@ var billController = (function() {
             return data.getNumPeople();
         },
 
-        getTotalOwed: function() {
-            return data.totalOwed;
+        getTotalExpense: function() {
+            return data.totalExpense;
         },
 
         addExpense: function (exp) {
@@ -46,14 +50,14 @@ var billController = (function() {
             newExpense = exp;
             console.log("New Expense" + exp);
             // Add expense to total
-            data.totalOwed += parseFloat(newExpense);
-            // Update balances
-            data.updateBalances();
+            data.totalExpense += parseFloat(newExpense);
+            // Update oweds
+            data.updateOwed();
             return newExpense;
         }, 
 
         addPerson: function(nam, exp) {
-            var newPerson, id, bal;
+            var newPerson, id, owe;
             // Create ID based on id of last item + 1
             if (data.allPeople.length > 0) {
                 id = data.allPeople[data.allPeople.length-1].id + 1;
@@ -62,20 +66,21 @@ var billController = (function() {
                 id = 0;
             }
             // Create new person
-            newPerson = new Person(id, nam, bal);
+            newPerson = new Person(id, nam, owe);
             // Get number of total people
             numPeople = data.getNumPeople();
             // Update individual expense
-            bal = exp/numPeople;
-            newPerson.balance = bal;
+            owe = exp/numPeople;
+            newPerson.owed = owe;
             // Push to data
             data.allPeople.push(newPerson);
-            // Update balances
-            data.updateBalances();
+            // Update owed
+            data.updateOwed();
             // Return new person
             return newPerson;
         },
 
+        // FOR DEBUGGING
         testDisplay: function() {
             console.log(data);
         }
@@ -116,28 +121,29 @@ var uiController = (function() {
             var html, newHtml, element;
             // Create string with placeholder text
             element = domStrings.personItemCont;
-            html = '<div class = "person clearfix" id = "person-%id%"><div class = "left clearfix"><div class = "personName">%name%</div></div><div class = "right clearfix"><div class = "owedAmount">$%balance%</div><div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div><div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div></div></div>';
+            html = '<div class = "person clearfix" id = "person-%id%"><div class = "left clearfix"><div class = "personName">%name%</div></div><div class = "right clearfix"><div class = "owedAmount">$%owed%</div><div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div><div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div></div></div>';
 
             // Replace placeholder with object attributes
             newHtml = html.replace('%id%', obj.id);
             newHtml = newHtml.replace('%name%', obj.name.personName);
-            newHtml = newHtml.replace('%balance%', obj.balance);
+            newHtml = newHtml.replace('%owed%', obj.owed);
 
             // Insert HTML into DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+            // TODO: Update number of people in group in UI
         },
 
-        // Update balances in list new person is added
-        updateUIBalances: function () {
-            var numPeople, total, newBalance;
+        // Update amount owed in list when new person is added
+        updateUIOwed: function () {
+            var numPeople, total, newOwed;
             // Get number of people from bill controller
             numPeople = billController.getNumPeople();
-            // Get total owed from bill controller and calculate new balances
-            total = billController.getTotalOwed();
-            newBalance = total/numPeople;
+            // Get total owed from bill controller and calculate new amount owed
+            total = billController.getTotalExpense();
+            newOwed = total/numPeople;
             // Update owed amount for each person in UI
             for (var i = 0; i < numPeople; i++) {
-                document.querySelector(domStrings.personNoID+i).querySelectorAll(domStrings.personBalDiv)[0].textContent = "$"+newBalance;
+                document.querySelector(domStrings.personNoID+i).querySelectorAll(domStrings.personBalDiv)[0].textContent = "$"+newOwed;
             }
         },
 
@@ -184,7 +190,7 @@ var controller = (function(billCtrl, UICtrl) {
     };
 
     var updateTotal = function() {
-        // Return total
+        /// Return total
     }
 
     // Add expense to the bill
@@ -198,8 +204,8 @@ var controller = (function(billCtrl, UICtrl) {
             // Add expense to bill controller
             newExpense = billCtrl.addExpense(input);
             // Add expense to UI
-            // Update individual balances, clear fields
-            UICtrl.updateUIBalances();
+            // Update individual amounts owed, clear fields
+            UICtrl.updateUIOwed();
             UICtrl.clearExpenseField();
             // Calculate total owed & display on UI
             updateTotal();
@@ -218,12 +224,12 @@ var controller = (function(billCtrl, UICtrl) {
 
         if (input.personName != "") {
             // Get total expense 
-            expense = billCtrl.getTotalOwed();
+            expense = billCtrl.getTotalExpense();
             // Add person to bill controller
             newPerson = billCtrl.addPerson(input,expense);
-            // Add person to UI, update balances, clear fields
+            // Add person to UI, update amount owed, clear fields
             UICtrl.addListPerson(newPerson);
-            UICtrl.updateUIBalances();
+            UICtrl.updateUIOwed();
             UICtrl.clearPersonField();
         }
         
