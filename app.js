@@ -11,6 +11,15 @@ var billController = (function() {
         this.owed = owed;
     };
 
+    var calcTotalOwed = function() {
+        var sum = 0;
+        // Sum all owed amounts
+        data.allPeople.forEach(function(current) {
+            sum += current.owed;
+        });
+        data.totalOwed = sum;
+    };
+
     var data = {
         // Person Array
         allPeople: [],
@@ -78,6 +87,17 @@ var billController = (function() {
             data.updateOwed();
             // Return new person
             return newPerson;
+        },
+
+        calculateOwed: function() {
+            // Calcualte total owed
+            calcTotalOwed();
+        },  
+
+        getOwed: function() {
+            return {
+                totalOwed: data.totalOwed
+            };
         },
 
         // FOR DEBUGGING
@@ -190,7 +210,12 @@ var controller = (function(billCtrl, UICtrl) {
     };
 
     var updateTotal = function() {
-        /// Return total
+        // Calculate total amount owed
+        billCtrl.calculateOwed();
+        // Return total amount owed
+        var total = billCtrl.getOwed().totalOwed;
+        // Display total amount owed in UI
+        console.log("Total owed"+total);
     }
 
     // Add expense to the bill
