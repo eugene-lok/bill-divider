@@ -119,7 +119,8 @@ var uiController = (function() {
         personItemCont: ".personContainer",
         personNoID: "#person-",
         personBalDiv: "div.owedAmount",
-        owedLabel: ".owedAmount"
+        owedLabel: ".owedAmount",
+        numPeopleLabel: ".owedPeopleNum"
     };
 
     return {
@@ -182,6 +183,11 @@ var uiController = (function() {
         // Display total amount owed on UI
         displayTotalOwed: function(owedObj) {
             document.querySelector(domStrings.owedLabel).textContent = "$"+owedObj.totalOwed.toFixed(2);
+        },
+
+        // Display total number of people in group
+        displayTotalPeople: function(num) {
+            document.querySelector(domStrings.numPeopleLabel).textContent = num;
         },
 
         getDomStrings: function() {
@@ -250,7 +256,7 @@ var controller = (function(billCtrl, UICtrl) {
 
     // Add person to share the bill 
     var ctrlAddPerson = function() {
-        var input, expense, newPerson;
+        var input, expense, newPerson, numPeople;
         // Get person name
         input = UICtrl.getPerson();
 
@@ -261,6 +267,9 @@ var controller = (function(billCtrl, UICtrl) {
             newPerson = billCtrl.addPerson(input,expense);
             // Add person to UI, update amount owed, clear fields
             UICtrl.addListPerson(newPerson);
+            // Get new number of people in group
+            numPeople = billCtrl.getNumPeople();
+            UICtrl.displayTotalPeople(numPeople);
             UICtrl.updateUIOwed();
             UICtrl.clearPersonField();
         }
