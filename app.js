@@ -119,8 +119,12 @@ var uiController = (function() {
         personItemCont: ".personContainer",
         personNoID: "#person-",
         personBalDiv: "div.owedAmount",
+        personPay: ".btn-pay",
+        personDel: ".btn-del",
         owedLabel: ".owedAmount",
-        numPeopleLabel: ".owedPeopleNum"
+        numPeopleLabel: ".owedPeopleNum",
+        listContainer: ".personContainer"
+        
     };
 
     return {
@@ -219,6 +223,9 @@ var controller = (function(billCtrl, UICtrl) {
         document.querySelector(dom.inputPersonBtn).addEventListener('click', function() {
             ctrlAddPerson();
         });
+
+        // Clears or deletes a person from the group
+        document.querySelector(dom.listContainer).addEventListener('click', ctrlPersonAction);
     };
 
     var updateTotal = function() {
@@ -252,7 +259,7 @@ var controller = (function(billCtrl, UICtrl) {
         else {
             alert("Please enter positive values only.")
         }
-    }
+    };
 
     // Add person to share the bill 
     var ctrlAddPerson = function() {
@@ -273,9 +280,36 @@ var controller = (function(billCtrl, UICtrl) {
             UICtrl.updateUIOwed();
             UICtrl.clearPersonField();
         }
+    };
+    
+    // Deletes a person from the list
+    var ctrlDelPerson = function(ind) {
+        // TODO
         
-        // Display on UI
-    }
+    };
+
+    // Controller for all actions for Person
+    var ctrlPersonAction = function(event) {
+        // Get strings from DOM
+        var dom = UICtrl.getDomStrings();
+        // Get class name of target button 
+        var btnSelect = event.target.parentNode;
+        var btnName = btnSelect.className;
+        // Get id/index of person from target button
+        var personIDString = btnSelect.parentNode.parentNode.id;
+        var personIDInd = personIDString.split('-')[1];
+        console.log(btnName);
+        console.log(personIDString);
+        console.log(personIDInd);
+        // Pay action
+        if (personIDString == dom.personPay) {
+            // TODO
+        }
+        // Delete person action
+        else if (personIDString == dom.personDel) {
+            ctrlDelPerson(personIDInd);
+        }
+    };
 
     // Init function
     return {
