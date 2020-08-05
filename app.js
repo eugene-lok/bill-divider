@@ -90,18 +90,37 @@ var billController = (function() {
         },
 
         deletePerson: function(id) {
-            var allID, index;
+            var allID, index, remainOwed;
             // Return array of person ids
             allID = data.allPeople.map(function(current) {
                 return current.id;
             });
             // Find index of id
             index = allID.indexOf(id);
-            // Splice person from array 
+            
             if (index !== -1) {
+                // Get remaining amount owed
+                remainOwed = data.allPeople[index].owed;
+                // Splice person from array 
                 data.allPeople.splice(index, 1);
                 console.log("Person deleted.");
+                // Get remaining number of people
+                var remainPeople = data.getNumPeople();
+                // If more than 0 people left
+                if (remainPeople > 0) {
+                    // Calculate remaining amount per person 
+                    var remainOwedSplit = remainOwed/remainPeople;
+                    // Add remaining amount to each person's amount owed
+                    data.allPeople.forEach(function(current) {
+                        current.owed += remainOwedSplit; 
+                    });
+                }
             }
+
+            
+            
+            
+            
             
             // TODO: Split remaining amount owed among the rest of people, IF there is more than 0 people left
         },
