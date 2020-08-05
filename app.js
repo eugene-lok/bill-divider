@@ -89,6 +89,23 @@ var billController = (function() {
             return newPerson;
         },
 
+        deletePerson: function(id) {
+            var allID, index;
+            // Return array of person ids
+            allID = data.allPeople.map(function(current) {
+                return current.id;
+            });
+            // Find index of id
+            index = allID.indexOf(id);
+            // Splice person from array 
+            if (index !== -1) {
+                data.allPeople.splice(index, 1);
+                console.log("Person deleted.");
+            }
+            
+            // TODO: Split remaining amount owed among the rest of people, IF there is more than 0 people left
+        },
+
         calculateOwed: function() {
             // Calcualte total owed
             calcTotalOwed();
@@ -283,9 +300,11 @@ var controller = (function(billCtrl, UICtrl) {
     };
     
     // Deletes a person from the list
-    var ctrlDelPerson = function(ind) {
-        // TODO
-        
+    var ctrlDelPerson = function(id) {
+        // Delete person from data
+        billCtrl.deletePerson(id);
+        // Delete person from UI
+        // Update total owed, number of people
     };
 
     // Controller for all actions for Person
@@ -297,17 +316,17 @@ var controller = (function(billCtrl, UICtrl) {
         var btnName = btnSelect.className;
         // Get id/index of person from target button
         var personIDString = btnSelect.parentNode.parentNode.id;
-        var personIDInd = personIDString.split('-')[1];
+        var personID = parseInt(personIDString.split('-')[1]);
         console.log(btnName);
-        console.log(personIDString);
-        console.log(personIDInd);
+        console.log(typeof personID);
         // Pay action
-        if (personIDString == dom.personPay) {
+        if ("."+btnName == dom.personPay) {
             // TODO
         }
         // Delete person action
-        else if (personIDString == dom.personDel) {
-            ctrlDelPerson(personIDInd);
+        else if (("."+btnName) == dom.personDel) {
+            console.log("Delete person.")
+            ctrlDelPerson(personID);
         }
     };
 
