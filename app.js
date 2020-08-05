@@ -118,7 +118,8 @@ var uiController = (function() {
         inputPersonBtn: ".btn-addPersonFinal",
         personItemCont: ".personContainer",
         personNoID: "#person-",
-        personBalDiv: "div.owedAmount"
+        personBalDiv: "div.owedAmount",
+        owedLabel: ".owedAmount"
     };
 
     return {
@@ -163,7 +164,7 @@ var uiController = (function() {
             newOwed = total/numPeople;
             // Update owed amount for each person in UI
             for (var i = 0; i < numPeople; i++) {
-                document.querySelector(domStrings.personNoID+i).querySelectorAll(domStrings.personBalDiv)[0].textContent = "$"+newOwed;
+                document.querySelector(domStrings.personNoID+i).querySelectorAll(domStrings.personBalDiv)[0].textContent = "$"+newOwed.toFixed(2);
             }
         },
 
@@ -176,6 +177,11 @@ var uiController = (function() {
         // Clear person input field when addPerson button is submitted   
         clearPersonField: function() {
             document.querySelector(domStrings.inputPersonName).value = "";
+        },
+
+        // Display total amount owed on UI
+        displayTotalOwed: function(owedObj) {
+            document.querySelector(domStrings.owedLabel).textContent = "$"+owedObj.totalOwed.toFixed(2);
         },
 
         getDomStrings: function() {
@@ -213,9 +219,10 @@ var controller = (function(billCtrl, UICtrl) {
         // Calculate total amount owed
         billCtrl.calculateOwed();
         // Return total amount owed
-        var total = billCtrl.getOwed().totalOwed;
-        // Display total amount owed in UI
-        console.log("Total owed"+total);
+        var total = billCtrl.getOwed();
+        // TODO: Display total amount owed in UI
+        console.log("Total owed"+total.totalOwed);
+        UICtrl.displayTotalOwed(total);
     }
 
     // Add expense to the bill
