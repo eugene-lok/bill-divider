@@ -5,10 +5,11 @@ var billController = (function() {
     var Expense;
 
     // Constructor for person
-    var Person = function(id, name, owed) {
+    var Person = function(id, name, owed, paid) {
         this.id = id;
         this.name = name;
         this.owed = owed;
+        this.paid = paid;
     };
 
     var calcTotalOwed = function() {
@@ -42,24 +43,32 @@ var billController = (function() {
             });
         },
 
-        // Note: MUST call whenever & AFTER new expense or person is added
-        /*
+        // Note: MUST call AFTER person is added
         updateOwed: function() {
+            var numPeople, paidStatus, totalOwed, indivOwed;
             // Calculate individual divided bill value
-            var numPeople = this.getNumPeople();
-            var owedSplit = newExpense/numPeople;
-            this.allPeople.forEach(function(current) {
-                if (typeof current.owed === 'undefined') {
-                    current.owed = 0;
+            numPeople = this.getNumPeople();
+            // Get array of paid status 
+            paidStatus = this.allPeople.map(function(current) {
+                return current.paid;
+            });
+            console.log("Status: "+paidStatus);
+            // Get indices where paid is false
+            var indices = [];
+            for (var i = 0; i < numPeople; i++) {
+                if (paidStatus[i] === false) {
+                    indices.push(i);
                 }
-                else {
-                    current.owed = 
-                }
-                
-            }); 
-
+            }
+            console.log("Indices:"+ indices);
+            // Get total amount owed, calculate individual amounts owed
+            totalOwed = this.totalOwed;
+            indivOwed = totalOwed/indices.length;
+            // Assign individual amounts owed at indices
+            for (var i = 0; i < indices.length; i++) {
+                this.allPeople[indices[i]].owed = indivOwed;
+            }
         }
-        */
 
         // Calculate total amount owed from all people
     };
@@ -95,15 +104,13 @@ var billController = (function() {
                 id = 0;
             }
             // Create new person
-            newPerson = new Person(id, nam, 0);
+            newPerson = new Person(id, nam, 0, false);
             // Get number of total people
             numPeople = data.getNumPeople();
-            // Update individual expense
-            //owe = exp/numPeople;
             // Push to data
             data.allPeople.push(newPerson);
-            // Update owed (FIX THIS PLEASE)
-            //data.updateOwed();
+            // Update amounts owed 
+            data.updateOwed();
             // Return new person
             return newPerson;
         },
