@@ -82,6 +82,22 @@ var billController = (function() {
             return data.totalExpense;
         },
 
+        getAllIds: function() {
+            var allIDs;
+            allIDs = data.allPeople.map(function(current) {
+                current.id;
+            });
+            return
+        },
+
+        getIndivOwed: function() {
+            var indivOwed;
+            indivOwed = data.allPeople.map(function(current) {
+                current.owed;
+            });
+            return indivOwed;
+        },
+
         addExpense: function (exp) {
             var newExpense;
             newExpense = exp;
@@ -230,8 +246,7 @@ var uiController = (function() {
         },
 
         // Update amount owed in list when new person is added 
-        updateUIOwed: function () {
-            
+        updateUIOwed: function (owedList) {
             // Get number of people from bill controller
             numPeople = billController.getNumPeople();
             // Get total owed from bill controller and calculate new amount owed
@@ -251,7 +266,7 @@ var uiController = (function() {
 
         // Clear expense input field when addExpense button is submitted
         clearExpenseField: function() {
-            document.querySelector(domStrings.inputExpense).value = "";
+            document.querySelector(domStrings.inputExpense).value = ""; 
             document.querySelector(domStrings.inputExpense).focus();
         },
 
@@ -344,16 +359,20 @@ var controller = (function(billCtrl, UICtrl) {
         input = UICtrl.getPerson();
 
         if (input.personName != "") {
+            var owedList;
             // Get total expense 
             expense = billCtrl.getTotalExpense();
             // Add person to bill controller
             newPerson = billCtrl.addPerson(input,expense);
             // Add person to UI, update amount owed, clear fields
             UICtrl.addListPerson(newPerson);
-            // Get new number of people in group
+            // Get and display new number of people in group
             numPeople = billCtrl.getNumPeople();
             UICtrl.displayTotalPeople(numPeople);
-            UICtrl.updateUIOwed();
+            // Get individual amounts owed
+            owedList = billCtrl.getIndivOwed();
+            // Update UI with individual amounts owed
+            UICtrl.updateUIOwed(owedList);
             UICtrl.clearPersonField();
         }
     };
@@ -366,7 +385,7 @@ var controller = (function(billCtrl, UICtrl) {
         // Delete person from UI
         UICtrl.deleteListPerson(idString);
         // Update individual amounts owed 
-        //UICtrl.updateUIOwed();
+        UICtrl.updateUIOwed();
         // Update total owed, number of people
         updateTotal();
         var numPeople = billCtrl.getNumPeople();
