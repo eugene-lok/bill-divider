@@ -195,6 +195,12 @@ var uiController = (function() {
             // TODO: Update number of people in group in UI
         },
 
+        // Deletes a person from UI
+        deleteListPerson: function(idString) {
+            var element = document.getElementById(idString);
+            element.parentNode.removeChild(element);
+        },
+
         // Update amount owed in list when new person is added
         updateUIOwed: function () {
             var numPeople, total, newOwed;
@@ -319,11 +325,19 @@ var controller = (function(billCtrl, UICtrl) {
     };
     
     // Deletes a person from the list
-    var ctrlDelPerson = function(id) {
+    var ctrlDelPerson = function(idString, id) {
+        console.log("IdString: "+idString)
         // Delete person from data
         billCtrl.deletePerson(id);
         // Delete person from UI
+        UICtrl.deleteListPerson(idString);
+        // Update individual amounts owed 
+
         // Update total owed, number of people
+        updateTotal();
+        var numPeople = billCtrl.getNumPeople();
+        UICtrl.displayTotalPeople(numPeople);
+        
     };
 
     // Controller for all actions for Person
@@ -345,7 +359,7 @@ var controller = (function(billCtrl, UICtrl) {
         // Delete person action
         else if (("."+btnName) == dom.personDel) {
             console.log("Delete person.")
-            ctrlDelPerson(personID);
+            ctrlDelPerson(personIDString,personID);
         }
     };
 
