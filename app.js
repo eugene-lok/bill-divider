@@ -83,20 +83,23 @@ var billController = (function() {
         },
 
         getUnpaidIds: function() {
-            var ids, owed; 
+            var ids, paid; 
             var unpaidIds = [];
-            ids = data.getAllIds();
-            owed = data.getIndivOwed();
-            for (var i = 0; i < owed.length; i++) {
-                // TODO
+            ids = this.getAllIds();
+            paid = this.getAllPaid();
+            
+            for(var i = 0; i < ids.length; i++) {
+                if (paid[i] == false) {
+                    unpaidIds.push(ids[i]);
+                }
             }
-
+            return unpaidIds;
         },
 
         getAllIds: function() {
             var allIDs;
             allIDs = data.allPeople.map(function(current) {
-                current.id;
+                return current.id;
             });
             return allIDs;
         },
@@ -104,7 +107,7 @@ var billController = (function() {
         getIndivOwed: function() {
             var indivOwed;
             indivOwed = data.allPeople.map(function(current) {
-                current.owed;
+                return current.owed;
             });
             return indivOwed;
         },
@@ -112,10 +115,10 @@ var billController = (function() {
         getAllPaid: function() {
             var allPaid;
             allPaid = data.allPeople.map(function(current) {
-                current.paid;
+                return current.paid;
             });
-            return paid;
-        }
+            return allPaid;
+        },
 
         addExpense: function (exp) {
             var newExpense;
@@ -264,17 +267,24 @@ var uiController = (function() {
             element.parentNode.removeChild(element);
         },
 
+        // Update amounts owed in list when new expense is added 
+        updateUIExpense: function() {
+
+        },
+
         // Update amount owed in list when new person is added 
-        updateUIOwed: function (owedList) {
+        updateUIOwed: function(unpaid, owed) {
+            var nextId, nextOwed;
             // Get number of people from bill controller
             numPeople = billController.getNumPeople();
             // Get total owed from bill controller and calculate new amount owed
             total = billController.getTotalExpense();
-            newOwed = total/numPeople;
-
-            // Update owed amount for each person in UI
-            for (var i = 0; i < numPeople; i++) {
-                document.querySelector(domStrings.personNoID+i).querySelectorAll(domStrings.personBalDiv)[0].textContent = "$"+newOwed.toFixed(2);
+            numUnpaid = unpaid.length;
+            // Update owed amount for each person (unpaid) in UI
+            for (var i = 0; i < numUnpaid; i++) {
+                nextID = unpaid[i];
+                nextOwed = owed[i];
+                document.querySelector(domStrings.personNoID+nextID).querySelectorAll(domStrings.personBalDiv)[0].textContent = "$"+nextOwed.toFixed(2);
             }
 
 
@@ -360,7 +370,7 @@ var controller = (function(billCtrl, UICtrl) {
             newExpense = billCtrl.addExpense(input);
             // Add expense to UI
             // Update individual amounts owed, clear fields
-            UICtrl.updateUIOwed();
+            UICtrl.updateUIExpense();
             UICtrl.clearExpenseField();
             // Calculate total expense, total owed, & display on UI
             updateTotal();
@@ -378,7 +388,7 @@ var controller = (function(billCtrl, UICtrl) {
         input = UICtrl.getPerson();
 
         if (input.personName != "") {
-            var owedList;
+            var owedList, unpaidList
             // Get total expense 
             expense = billCtrl.getTotalExpense();
             // Add person to bill controller
@@ -388,12 +398,13 @@ var controller = (function(billCtrl, UICtrl) {
             // Get and display new number of people in group
             numPeople = billCtrl.getNumPeople();
             UICtrl.displayTotalPeople(numPeople);
-            // Get IDs of people
-
+            // Get IDs of people (unpaid)
+            unpaidList = billCtrl.getUnpaidIds();
             // Get individual amounts owed
             owedList = billCtrl.getIndivOwed();
+            console.log("unpaid:"+unpaidList);
             // Update UI with individual amounts owed
-            UICtrl.updateUIOwed(owedList);
+            UICtrl.updateUIOwed(unpaidList, owedList);
             UICtrl.clearPersonField();
         }
     };
