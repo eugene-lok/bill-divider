@@ -82,12 +82,23 @@ var billController = (function() {
             return data.totalExpense;
         },
 
+        getUnpaidIds: function() {
+            var ids, owed; 
+            var unpaidIds = [];
+            ids = data.getAllIds();
+            owed = data.getIndivOwed();
+            for (var i = 0; i < owed.length; i++) {
+                // TODO
+            }
+
+        },
+
         getAllIds: function() {
             var allIDs;
             allIDs = data.allPeople.map(function(current) {
                 current.id;
             });
-            return
+            return allIDs;
         },
 
         getIndivOwed: function() {
@@ -97,6 +108,14 @@ var billController = (function() {
             });
             return indivOwed;
         },
+
+        getAllPaid: function() {
+            var allPaid;
+            allPaid = data.allPeople.map(function(current) {
+                current.paid;
+            });
+            return paid;
+        }
 
         addExpense: function (exp) {
             var newExpense;
@@ -369,6 +388,8 @@ var controller = (function(billCtrl, UICtrl) {
             // Get and display new number of people in group
             numPeople = billCtrl.getNumPeople();
             UICtrl.displayTotalPeople(numPeople);
+            // Get IDs of people
+
             // Get individual amounts owed
             owedList = billCtrl.getIndivOwed();
             // Update UI with individual amounts owed
