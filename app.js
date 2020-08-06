@@ -120,6 +120,7 @@ var billController = (function() {
             return allPaid;
         },
 
+        // Updates total expense and individual amounts owed when expense is added
         addExpense: function (exp) {
             var newExpense;
             newExpense = exp;
@@ -267,31 +268,33 @@ var uiController = (function() {
             element.parentNode.removeChild(element);
         },
 
-        // Update amounts owed in list when new expense is added 
-        updateUIExpense: function() {
-
+        // Update amounts owed in list when new expense is added or when person is deleted
+        updateUIExpense: function(allID, owed) {
+            var numPeople, nextID, nextOwed;
+            numPeople = owed.length;
+            for (var i = 0; i < numPeople; i++) {
+                nextID = allID[i];
+                nextOwed = owed[i];
+                document.querySelector(domStrings.personNoID+nextID).querySelectorAll(domStrings.personBalDiv)[0].textContent = "$"+nextOwed.toFixed(2);
+            }
         },
 
         // Update amount owed in list when new person is added 
         updateUIOwed: function(unpaid, owed) {
-            var nextId, nextOwed;
-            // Get number of people from bill controller
-            numPeople = billController.getNumPeople();
-            // Get total owed from bill controller and calculate new amount owed
-            total = billController.getTotalExpense();
-            numUnpaid = unpaid.length;
+            var nextID, nextOwed;
+            var numUnpaid = unpaid.length;
             // Update owed amount for each person (unpaid) in UI
             for (var i = 0; i < numUnpaid; i++) {
                 nextID = unpaid[i];
                 nextOwed = owed[i];
                 document.querySelector(domStrings.personNoID+nextID).querySelectorAll(domStrings.personBalDiv)[0].textContent = "$"+nextOwed.toFixed(2);
             }
-
-
         },
 
         // Update amount owed in list when person is deleted
-        // TODO: 
+        updateUIOwedDel: function() {
+            // TODO: 
+        },
 
         // Clear expense input field when addExpense button is submitted
         clearExpenseField: function() {
@@ -368,9 +371,12 @@ var controller = (function(billCtrl, UICtrl) {
             console.log("Added " + input);
             // Add expense to bill controller
             newExpense = billCtrl.addExpense(input);
-            // Add expense to UI
+            // Get amounts owed 
+            var allOwed = billCtrl.getIndivOwed();
+            // Get IDs of current people
+            var allIDs = billCtrl.getAllIds();
             // Update individual amounts owed, clear fields
-            UICtrl.updateUIExpense();
+            UICtrl.updateUIExpense(allIDs, allOwed);
             UICtrl.clearExpenseField();
             // Calculate total expense, total owed, & display on UI
             updateTotal();
@@ -416,8 +422,12 @@ var controller = (function(billCtrl, UICtrl) {
         billCtrl.deletePerson(id);
         // Delete person from UI
         UICtrl.deleteListPerson(idString);
-        // Update individual amounts owed 
-        UICtrl.updateUIOwed();
+        // Get all person IDs
+        var allIDs = billCtrl.getAllIds();
+        // Get all new amounts owed
+        var allOwed = billCtrl.getIndivOwed();
+        // Update individual amounts owed (NEED TO REPLACE)
+        UICtrl.updateUIExpense(allIDs, allOwed);
         // Update total owed, number of people
         updateTotal();
         var numPeople = billCtrl.getNumPeople();
