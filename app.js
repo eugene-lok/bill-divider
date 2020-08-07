@@ -190,13 +190,17 @@ var billController = (function() {
                     });
                 }
             }
+        },
 
-            
-            
-            
-            
-            
-            // TODO: Split remaining amount owed among the rest of people, IF there is more than 0 people left
+        // Updates amount owed when a person pays their amount owed
+        // Call BEFORE individual owed is updated
+        totalOwedPaidUpdate: function(id) { 
+            var indivOwed, allIds, ind;
+            allIds = this.getAllIds();
+            // Find index of id
+            ind = allIds.indexOf(id);
+            var indivOwed = data.allPeople[ind].owed;
+            data.totalOwed -= indivOwed;
         },
 
         calculateOwed: function() {
@@ -441,13 +445,14 @@ var controller = (function(billCtrl, UICtrl) {
     
     // Marks as person as paid; clears amount owed
     var ctrlPayPerson = function(idString, id) {
+        // Update total amount owed in data
+        billCtrl.totalOwedPaidUpdate(id);
         // Pay owed amount in data
         billCtrl.payPerson(id);
         // Pay owed amount in UI
         UICtrl.payListPerson(idString);
-        // Update total amount owed in data
         // Update total amount owed in UI
-
+        updateTotal();
     }; 
 
     // Deletes a person from the list
