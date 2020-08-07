@@ -264,7 +264,7 @@ var uiController = (function() {
             var html, newHtml, element;
             // Create string with placeholder text
             element = domStrings.personItemCont;
-            html = '<div class = "person clearfix" id = "person-%id%"><div class = "left clearfix"><div class = "personName">%name%</div></div><div class = "right clearfix"><div class = "owedAmount">$%owed%</div><div class = "btn-pay"><ion-icon name="cash-outline" size = "large"></ion-icon></div><div class = "btn-del"><ion-icon name="trash-outline" size = "large"></ion-icon></div></div></div>';
+            html = '<div class = "person clearfix" id = "person-%id%"><div class = "left clearfix"><div class = "personName">%name%</div></div><div class = "right clearfix"><div class = "owedAmount">$%owed%</div><div class = "btn-pay" data-toggle="tooltip" data-placement="bottom" title="Pay Amount Owed"><ion-icon name="cash-outline" size = "large"></ion-icon></div><div class = "btn-del" data-toggle="tooltip" data-placement="bottom" title="Delete Person"><ion-icon name="trash-outline" size = "large"></ion-icon></div></div></div>';
 
             // Replace placeholder with object attributes
             newHtml = html.replace('%id%', obj.id);
@@ -508,6 +508,11 @@ var controller = (function(billCtrl, UICtrl) {
     };
 
 })(billController, uiController);
+
+// Enable tooltips
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});
 
 // Start app and consequently, event listeners
 controller.init();
