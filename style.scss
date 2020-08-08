@@ -30,6 +30,23 @@ input {
     clear: both;
 }
 
+// Menu Bar
+.menuBar {
+    padding: 20px 0px 10px 25px;
+    .appTitle {
+        font-size: 32px;
+        display: inline;
+    }
+    .github {
+        padding-right: 25px;
+        float: right;
+    }
+    ion-icon[name="logo-github"] {
+        color: black;
+        font-size: 40px;
+    }
+}
+
 // Main Content
 .owedDisplay {
     height: 33vh;
@@ -150,6 +167,10 @@ input {
 }
 
 // Effects
+ion-icon[name="logo-github"]:hover {
+    font-size: 45px;
+}
+
 ion-icon[name="person-add-outline"]:hover {
     color: $personColour;
 }
@@ -165,3 +186,4 @@ ion-icon[name="cash-outline"]:hover {
 ion-icon[name="trash-outline"]:hover {
     color: red;
 }
+

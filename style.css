@@ -27,6 +27,25 @@ input {
   clear: both;
 }
 
+.menuBar {
+  padding: 20px 0px 10px 25px;
+}
+
+.menuBar .appTitle {
+  font-size: 32px;
+  display: inline;
+}
+
+.menuBar .github {
+  padding-right: 25px;
+  float: right;
+}
+
+.menuBar ion-icon[name="logo-github"] {
+  color: black;
+  font-size: 40px;
+}
+
 .owedDisplay {
   height: 33vh;
   top: 50%;
@@ -161,6 +180,10 @@ input {
 .btn-primary {
   background-color: black;
   border-color: black;
+}
+
+ion-icon[name="logo-github"]:hover {
+  font-size: 45px;
 }
 
 ion-icon[name="person-add-outline"]:hover {
