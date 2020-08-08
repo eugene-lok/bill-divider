@@ -43,20 +43,34 @@ input {
 
 .menuBar ion-icon[name="logo-github"] {
   color: black;
+  font-size: 50px;
+}
+
+.wrapperTitle {
+  padding-top: 10px;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+}
+
+.expenseAmount {
   font-size: 40px;
+  padding: 10px 0px 10px 0px;
+}
+
+.paidAmount {
+  font-size: 40px;
+  padding: 10px 0px 10px 0px;
 }
 
 .owedDisplay {
   height: 33vh;
-  top: 50%;
-  left: 50%;
   text-align: center;
   margin-top: 10px;
   min-height: 280px;
 }
 
 .owedDisplay .owedTitle {
-  padding-top: 10px;
   font-size: 20px;
 }
 
@@ -183,7 +197,7 @@ input {
 }
 
 ion-icon[name="logo-github"]:hover {
-  font-size: 45px;
+  font-size: 55px;
 }
 
 ion-icon[name="person-add-outline"]:hover {
