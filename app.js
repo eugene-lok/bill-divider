@@ -54,7 +54,6 @@ var billController = (function() {
             paidStatus = this.allPeople.map(function(current) {
                 return current.paid;
             });
-            console.log("Status: "+paidStatus);
             // Get indices where paid is false
             var indices = [];
             for (var i = 0; i < numPeople; i++) {
@@ -62,7 +61,6 @@ var billController = (function() {
                     indices.push(i);
                 }
             }
-            console.log("Indices:"+ indices);
             // Get total amount owed, calculate individual amounts owed
             totalOwed = this.totalOwed;
             indivOwed = totalOwed/indices.length;
@@ -126,7 +124,6 @@ var billController = (function() {
         addExpense: function (exp) {
             var newExpense;
             newExpense = exp;
-            console.log("New Expense: " + newExpense);
             // Add expense to total
             data.totalExpense += parseFloat(newExpense);
             // Update owed amounts
@@ -177,7 +174,6 @@ var billController = (function() {
                 remainOwed = data.allPeople[index].owed;
                 // Splice person from array 
                 data.allPeople.splice(index, 1);
-                console.log("Person deleted.");
                 // Get remaining number of people
                 var remainPeople = data.getNumPeople();
                 // If more than 0 people left
@@ -209,7 +205,6 @@ var billController = (function() {
         },  
 
         getOwed: function() {
-            console.log("TotalOwedClass: "+ data.totalOwed);
             return {
                 
                 totalOwed: data.totalOwed
@@ -240,6 +235,7 @@ var uiController = (function() {
         personDel: ".btn-del",
         owedLabel: ".owedAmount",
         owedLabelWithParent: ".right .owedAmount",
+        settledLabel: ".owedSettled",
         numPeopleLabel: ".owedPeopleNum",
         listContainer: ".personContainer"
         
@@ -316,6 +312,18 @@ var uiController = (function() {
             
         },
 
+        updateSettleLabel: function(numUnpaid, owed) {
+            if (numUnpaid == 0 || owed == 0) {
+                document.querySelector(domStrings.settledLabel).textContent = "All payments have been settled!";
+            }
+            else if (numUnpaid == 1) {
+                document.querySelector(domStrings.settledLabel).textContent = "There is " + numUnpaid + " unsettled payment!";
+            }
+            else {
+                document.querySelector(domStrings.settledLabel).textContent = "There are " + numUnpaid + " unsettled payments!";
+            }
+        },
+
         // Clear expense input field when addExpense button is submitted
         clearExpenseField: function() {
             document.querySelector(domStrings.inputExpense).value = ""; 
@@ -376,10 +384,14 @@ var controller = (function(billCtrl, UICtrl) {
         billCtrl.calculateOwed();
         // Return total amount owed
         var totalOwed = billCtrl.getOwed();
-        // TODO: Display total amount owed in UI
-        console.log("Total owed"+totalOwed.totalOwed);
         UICtrl.displayTotalOwed(totalOwed);
-    }
+    };
+
+    var updateNumPayments = function() {
+        var totalOwed = billCtrl.getOwed().totalOwed;
+        var numUnpaid = billCtrl.getUnpaidIds().length;
+        UICtrl.updateSettleLabel(numUnpaid, totalOwed);
+    };
 
     // Add expense to the bill
     var ctrlAddExpense = function() {
@@ -404,6 +416,7 @@ var controller = (function(billCtrl, UICtrl) {
                 UICtrl.clearExpenseField();
                 // Calculate total expense, total owed, & display on UI
                 updateTotal();
+                updateNumPayments();
                 // Display on UI
             }
             else {
@@ -436,9 +449,9 @@ var controller = (function(billCtrl, UICtrl) {
             unpaidList = billCtrl.getUnpaidIds();
             // Get individual amounts owed
             owedList = billCtrl.getIndivOwed();
-            console.log("unpaid:"+unpaidList);
             // Update UI with individual amounts owed
             UICtrl.updateUIOwed(unpaidList, owedList);
+            updateNumPayments();
             UICtrl.clearPersonField();
         }
     };
@@ -453,11 +466,11 @@ var controller = (function(billCtrl, UICtrl) {
         UICtrl.payListPerson(idString);
         // Update total amount owed in UI
         updateTotal();
+        updateNumPayments();
     }; 
 
     // Deletes a person from the list
     var ctrlDelPerson = function(idString, id) {
-        console.log("IdString: "+idString)
         // Delete person from data
         billCtrl.deletePerson(id);
         // Delete person from UI
@@ -470,6 +483,7 @@ var controller = (function(billCtrl, UICtrl) {
         UICtrl.updateUIExpense(allIDs, allOwed);
         // Update total owed, number of people
         updateTotal();
+        updateNumPayments();
         var numPeople = billCtrl.getNumPeople();
         UICtrl.displayTotalPeople(numPeople);
         
@@ -485,16 +499,12 @@ var controller = (function(billCtrl, UICtrl) {
         // Get id/index of person from target button
         var personIDString = btnSelect.parentNode.parentNode.id;
         var personID = parseInt(personIDString.split('-')[1]);
-        console.log(btnName);
-        console.log(typeof personID);
         // Pay action
         if ("."+btnName == dom.personPay) {
-            console.log("Person Pay.");
             ctrlPayPerson(personIDString, personID);
         }
         // Delete person action
         else if (("."+btnName) == dom.personDel) {
-            console.log("Delete person.");
             ctrlDelPerson(personIDString,personID);
         }
     };
