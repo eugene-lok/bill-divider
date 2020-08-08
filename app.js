@@ -233,6 +233,8 @@ var uiController = (function() {
         personBalDiv: "div.owedAmount",
         personPay: ".btn-pay",
         personDel: ".btn-del",
+        expenseLabel: ".expenseAmount",
+        paidLabel: ".paidAmount",
         owedLabel: ".owedAmount",
         owedLabelWithParent: ".right .owedAmount",
         settledLabel: ".owedSettled",
@@ -307,11 +309,6 @@ var uiController = (function() {
             }
         },
 
-        // Update amount owed in list when person is deleted
-        updateUIOwedDel: function() {
-            
-        },
-
         updateSettleLabel: function(numUnpaid, owed) {
             if (numUnpaid == 0 || owed == 0) {
                 document.querySelector(domStrings.settledLabel).textContent = "All payments have been settled!";
@@ -322,6 +319,11 @@ var uiController = (function() {
             else {
                 document.querySelector(domStrings.settledLabel).textContent = "There are " + numUnpaid + " unsettled payments!";
             }
+        },
+
+        updateUISideTotals: function(expense, paid) {
+            document.querySelector(domStrings.expenseLabel).textContent = "$"+expense.toFixed(2);
+            document.querySelector(domStrings.paidLabel).textContent = "$"+paid.toFixed(2);
         },
 
         // Clear expense input field when addExpense button is submitted
@@ -379,6 +381,7 @@ var controller = (function(billCtrl, UICtrl) {
         document.querySelector(dom.listContainer).addEventListener('click', ctrlPersonAction);
     };
 
+    // Updates total amount owed
     var updateTotal = function() {
         // Calculate total amount owed
         billCtrl.calculateOwed();
@@ -387,10 +390,23 @@ var controller = (function(billCtrl, UICtrl) {
         UICtrl.displayTotalOwed(totalOwed);
     };
 
+    // Updates number of payments left
     var updateNumPayments = function() {
         var totalOwed = billCtrl.getOwed().totalOwed;
         var numUnpaid = billCtrl.getUnpaidIds().length;
         UICtrl.updateSettleLabel(numUnpaid, totalOwed);
+    };
+    
+    // Updates total expenses and total amount paid
+    var updateSideTotals = function() {
+        var totalExpense = billCtrl.getTotalExpense();
+        var totalOwed = billCtrl.getOwed().totalOwed;
+        var totalPaid = totalExpense - totalOwed;
+        console.log(totalExpense);
+        console.log(totalOwed);
+        console.log(typeof totalExpense);
+        console.log(typeof totalOwed);
+        UICtrl.updateUISideTotals(totalExpense, totalPaid);
     };
 
     // Add expense to the bill
@@ -416,6 +432,7 @@ var controller = (function(billCtrl, UICtrl) {
                 UICtrl.clearExpenseField();
                 // Calculate total expense, total owed, & display on UI
                 updateTotal();
+                updateSideTotals();
                 updateNumPayments();
                 // Display on UI
             }
@@ -451,6 +468,7 @@ var controller = (function(billCtrl, UICtrl) {
             owedList = billCtrl.getIndivOwed();
             // Update UI with individual amounts owed
             UICtrl.updateUIOwed(unpaidList, owedList);
+            updateSideTotals();
             updateNumPayments();
             UICtrl.clearPersonField();
         }
@@ -466,6 +484,7 @@ var controller = (function(billCtrl, UICtrl) {
         UICtrl.payListPerson(idString);
         // Update total amount owed in UI
         updateTotal();
+        updateSideTotals();
         updateNumPayments();
     }; 
 
@@ -483,6 +502,7 @@ var controller = (function(billCtrl, UICtrl) {
         UICtrl.updateUIExpense(allIDs, allOwed);
         // Update total owed, number of people
         updateTotal();
+        updateSideTotals();
         updateNumPayments();
         var numPeople = billCtrl.getNumPeople();
         UICtrl.displayTotalPeople(numPeople);
@@ -519,10 +539,11 @@ var controller = (function(billCtrl, UICtrl) {
 
 })(billController, uiController);
 
+// Start app and consequently, event listeners
+controller.init();
+
+// JQUERY
 // Enable tooltips
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 });
-
-// Start app and consequently, event listeners
-controller.init();
