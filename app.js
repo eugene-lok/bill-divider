@@ -271,7 +271,6 @@ var uiController = (function() {
 
             // Insert HTML into DOM
             document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
-            // TODO: Update number of people in group in UI
         },
 
         // Deletes a person from UI

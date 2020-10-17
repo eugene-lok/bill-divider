@@ -1,0 +1,25 @@
+{
+  "name": "bill-divider",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "micromodal": "^0.4.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eugene-lok/bill-divider.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eugene-lok/bill-divider/issues"
+  },
+  "homepage": "https://github.com/eugene-lok/bill-divider#readme"
+}
